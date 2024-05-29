@@ -61,24 +61,34 @@ const actions = {
             }
         }
         else {
-            const req = new XMLHttpRequest()
-            req.open("GET", url, true);
-            req.responseType = "arraybuffer"
-            // load success
-            req.onload = () => {
-                actions.load_viaProto(req.response, cb, failure);
-            };
-            // load error
-            req.onerror = (err) => {
-                // Do not log to console or throw, if failure() exists
-                if (failure) {
-                    failure(err);
-                    return;
-                }
-                console.error(err);
-                throw err;
-            };
-            req.send()
+            if (!url.includes("http")) {
+                const fr = new FileReader()
+                fr.readAsArrayBuffer(url)
+                console.log('----ios fr------', fr)
+                fr.addEventListener("loadend", (e) => {
+                    console.log('----ios buffer------', e)
+                    actions.load_viaProto(e.target.result, cb, failure);
+                })
+            } else {
+                const req = new XMLHttpRequest()
+                req.open("GET", url, true);
+                req.responseType = "arraybuffer"
+                // load success
+                req.onload = () => {
+                    actions.load_viaProto(req.response, cb, failure);
+                };
+                // load error
+                req.onerror = (err) => {
+                    // Do not log to console or throw, if failure() exists
+                    if (failure) {
+                        failure(err);
+                        return;
+                    }
+                    console.error(err);
+                    throw err;
+                };
+                req.send()
+            }
         }
     },
 

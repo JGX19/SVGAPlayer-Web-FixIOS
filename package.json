@@ -1,6 +1,6 @@
 {
-  "name": "svgaplayerweb",
-  "version": "2.3.2",
+  "name": "svgaplayerweb-iosfix",
+  "version": "0.0.1",
   "repository": {
     "type": "git",
     "url": "https://github.com/yyued/SVGAPlayer-Web.git"
@@ -11,7 +11,7 @@
     "start": "http-server ./ & webpack -w & open http://127.0.0.1:8080/tests/",
     "build": "webpack"
   },
-  "author": "YYUED",
+  "author": "",
   "license": "Apache License 2.0",
   "dependencies": {},
   "devDependencies": {

@@ -2,6 +2,12 @@
 
 Language: [English](README.md)
 
+## 变更项
+
+手机端H5项目引用该仓库时，IOS端存在问题，XMLHttpRequest报错。
+分析发现，IOS端会将本地文件转换为file:///......路径文件，安卓端为https://......路径文件，代码调用XMLHttpRequest转换文件为arrayBuffer格式，IOS因协议
+问题报错。因此本仓库做出调整，兼容IOS系统文件格式转换。
+
 ## 版本更新
 
 * **[Lite 版本](https://github.com/svga/SVGAPlayer-Web-Lite)**
