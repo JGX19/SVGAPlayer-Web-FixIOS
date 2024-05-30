@@ -13,6 +13,19 @@ const Uint8ToString = function (u8a) {
     return c.join("");
 }
 
+const base64ToArrayBuffer = (base64) => {
+    if (base64.includes(',')) {
+        base64 = base64.split(',')[1]
+    }
+    const binaryString = window.atob(base64)
+    const len = binaryString.length
+    const bytes = new Uint8Array(len)
+    for (let i = 0; i < len; i ++) {
+        bytes[i] = binaryString.charCodeAt(i)
+    }
+    return bytes.buffer
+}
+
 const actions = {
 
     loadAssets: (url, cb, failure) => {
@@ -61,14 +74,9 @@ const actions = {
             }
         }
         else {
-            if (!url.includes("http")) {
-                const fr = new FileReader()
-                fr.readAsArrayBuffer(url)
-                console.log('----ios fr------', fr)
-                fr.addEventListener("loadend", (e) => {
-                    console.log('----ios buffer------', e)
-                    actions.load_viaProto(e.target.result, cb, failure);
-                })
+            if (url.length > 500) {
+                const buffer = base64ToArrayBuffer(url)
+                actions.load_viaProto(buffer, cb, failure);
             } else {
                 const req = new XMLHttpRequest()
                 req.open("GET", url, true);

@@ -1,8 +1,29 @@
-# 变更项
+## 变更项
 
 手机端H5项目引用该仓库时，IOS端存在问题，XMLHttpRequest报错。
 分析发现，IOS端会将本地文件转换为file:///......路径文件，安卓端为https://......路径文件，代码调用XMLHttpRequest转换文件为arrayBuffer格式，IOS因协议
-问题报错。因此本仓库做出调整，兼容IOS系统文件格式转换。
+问题报错。
+因此本仓库做出调整，兼容IOS系统文件格式转换，详细步骤如下：
+1. 先使用[工具](https://www.bejson.com/ui/file_to_base64/)将svga文件转换为base64字符串格式保存至项目txt文件中。
+2. 在项目中引入文件字符串源数据，替换paser.load中的第一个参数路径即可。
+例：
+```
+<template>
+    <div id="test" class="demo_canvas"></div>
+</template>
+<script setup>
+import red from '@/assets/red.txt?raw'
+import { onMounted } from 'vue'
+onMounted(() => {
+  var player = new SVGA.Player('#test')
+  var parser = new SVGA.Parser('#test')
+  parser.load(red, function(videoItem) {
+    player.setVideoItem(videoItem)
+    player.startAnimation()
+  })
+})
+</script>
+```
 
 # Archived
 
