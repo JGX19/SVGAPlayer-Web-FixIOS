@@ -74,7 +74,7 @@ const actions = {
             }
         }
         else {
-            if (url.length > 500) {
+            if (url && url.length > 500) {
                 const buffer = base64ToArrayBuffer(url)
                 actions.load_viaProto(buffer, cb, failure);
             } else {
